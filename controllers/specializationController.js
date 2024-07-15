@@ -1,4 +1,6 @@
 const Specialization = require('../models/specialization');
+const Doctor = require('../models/doctor');
+
 
 exports.createSpecializations = async (req, res) => {
     try {

@@ -28,7 +28,7 @@ router.get('/schedules/date/:date', scheduleController.getSchedulesByDate);
 // Appointment routes
 router.post('/appointments', appointmentController.createAppointment);
 router.get('/appointments/:doctorId', appointmentController.getAppointmentsById);
-router.get('/appointments/doctor/:name', appointmentController.getAppointmentsByDoctorName);
+router.get('/appointments/doctor/:doctorName', appointmentController.getAppointmentsByDoctorName);
 
 
 

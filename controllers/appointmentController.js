@@ -114,23 +114,28 @@ exports.getAppointmentsById = async (req, res) => {
 
 
 exports.getAppointmentsByDoctorName = async (req, res) => {
-    const { name } = req.params;
-
+    const { doctorName } = req.params;
+    
     try {
-        const appointments = await Appointment.findAll({
+        // Find the doctor by name
+        const doctor = await Doctor.findOne({
             where: {
-                '$doctor.name$': {
-                    [Op.iLike]: `%${name}%`
-                }
-            },
-            include: {
-                model: Doctor,
-                as: 'doctor'
+                name: doctorName
             }
         });
 
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found' });
+        }
+        // Fetch appointments for the found doctor
+        const appointments = await Appointment.findAll({
+            where: {
+                doctorId: doctor.id
+            }
+        });
         res.status(200).json(appointments);
     } catch (error) {
+        console.error('Error fetching appointments:', error);
         res.status(500).json({ message: 'Error fetching appointments', error: error.message });
     }
 };
